@@ -51,22 +51,21 @@ public class FaceCapture {
 			cvCvtColor(src, grayImg, CV_BGR2GRAY);
 
 			// scale the grayscale (to speed up face detection)
-			IplImage smallImg = IplImage.create(grayImg.width()/2,
-					grayImg.height()/2, IPL_DEPTH_8U, 1);
-			cvResize(grayImg, smallImg, CV_INTER_LINEAR);
+			//IplImage smallImg = IplImage.create(grayImg.width()/2, grayImg.height()/2, IPL_DEPTH_8U, 1);
+			//cvResize(grayImg, smallImg, CV_INTER_LINEAR);
 
-			// equalize the small grayscale
-			cvEqualizeHist(smallImg, smallImg);
+			// equalize the grayscale
+			//cvEqualizeHist(smallImg, smallImg);
+			cvEqualizeHist(grayImg, grayImg);
 
 			// create temp storage, used during object detection
 			CvMemStorage storage = CvMemStorage.create();
 
 			// instantiate a classifier cascade for face detection
-			CvHaarClassifierCascade cascade = new CvHaarClassifierCascade(
-					cvLoad(XML_FILE));
+			CvHaarClassifierCascade cascade = new CvHaarClassifierCascade(cvLoad(XML_FILE));
 
-			CvSeq faces = cvHaarDetectObjects(smallImg, cascade, storage, 1.1, 8,
-					CV_HAAR_DO_CANNY_PRUNING);
+			//CvSeq faces = cvHaarDetectObjects(smallImg, cascade, storage, 1.1, 8, CV_HAAR_DO_CANNY_PRUNING);
+			CvSeq faces = cvHaarDetectObjects(grayImg, cascade, storage, 1.1, 8, CV_HAAR_DO_CANNY_PRUNING);
 
 			cvClearMemStorage(storage);
 
